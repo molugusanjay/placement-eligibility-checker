@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrepEligible // Placement Eligibility Portal</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Stars/Glow Background effects -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ==============================================
+         1. AUTHENTICATION SECTION (Login & Signup)
+         ============================================== -->
+    <section id="auth-section" class="section-container active-section">
+        <div class="auth-wrapper">
+            <div class="auth-header">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-graduation-cap glow-icon"></i>
+                    <span>PrepEligible</span>
+                </div>
+                <p class="auth-subtitle">Campus Placement & Eligibility Suite</p>
+            </div>
+
+            <div class="auth-card glass-panel">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Login</button>
+                    <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="login-email" placeholder="student@campus.edu" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <div class="auth-info-box">
+                        <p><i class="fa-solid fa-circle-info"></i> Default Credentials for testing:</p>
+                        <p><strong>Admin:</strong> admin@tpo.com | admin123</p>
+                        <p><strong>Student:</strong> jane@student.com | student123</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-glow">
+                        <span>Sign In</span>
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+                </form>
+
+                <!-- Registration Form -->
+                <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="reg-name">Full Name</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-user input-icon"></i>
+                                <input type="text" id="reg-name" placeholder="John Doe">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">Email</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-envelope input-icon"></i>
+                                <input type="email" id="reg-email" placeholder="john@student.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Password</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-lock input-icon"></i>
+                                <input type="password" id="reg-password" placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-roll">Roll Number</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-id-card input-icon"></i>
+                                <input type="text" id="reg-roll" placeholder="CS001">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-branch">Branch</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-code-branch input-icon"></i>
+                                <select id="reg-branch">
+                                    <option value="">Select Branch</option>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Electronics Eng">Electronics Eng</option>
+                                    <option value="Mechanical Eng">Mechanical Eng</option>
+                                    <option value="Electrical Eng">Electrical Eng</option>
+                                    <option value="Civil Eng">Civil Eng</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-cgpa">CGPA (0.00 - 10.00)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-star input-icon"></i>
+                                <input type="number" step="0.01" min="0" max="10" id="reg-cgpa" placeholder="8.50">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-tenth">10th Score (%)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-percent input-icon"></i>
+                                <input type="number" step="0.1" min="0" max="100" id="reg-tenth" placeholder="90.5">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-twelfth">12th Score (%)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-percent input-icon"></i>
+                                <input type="number" step="0.1" min="0" max="100" id="reg-twelfth" placeholder="88.0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-backlogs">Active Backlogs</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-triangle-exclamation input-icon"></i>
+                                <input type="number" min="0" id="reg-backlogs" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-history">History of Backlogs</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-clock-rotate-left input-icon"></i>
+                                <input type="number" min="0" id="reg-history" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-year">Graduation Year</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-calendar input-icon"></i>
+                                <input type="number" min="2020" max="2035" id="reg-year" value="2026">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-resume">Resume URL</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-link input-icon"></i>
+                                <input type="url" id="reg-resume" placeholder="https://resume.io/yourprofile">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width-field">
+                        <label for="reg-skills">Skills (Comma-separated)</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lightbulb input-icon"></i>
+                            <input type="text" id="reg-skills" placeholder="HTML, CSS, JavaScript, React, SQL">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-glow">
+                        <span>Complete Registration</span>
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================
+         2. MAIN PORTAL CONTAINER (After login)
+         ============================================== -->
+    <main id="portal-container" class="portal-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-graduation-cap glow-icon"></i>
+                    <span>PrepEligible</span>
+                </div>
+            </div>
+
+            <!-- Profile Overview (Mini) -->
+            <div class="user-summary">
+                <div class="user-avatar" id="sidebar-avatar">S</div>
+                <div class="user-info">
+                    <h4 id="sidebar-username">Student Name</h4>
+                    <span id="sidebar-role" class="badge badge-indigo">Student</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="sidebar-nav">
+                <!-- Student Nav Links -->
+                <div class="nav-section-title student-nav-only">Student Dashboard</div>
+                <button class="nav-item active student-nav-only" id="nav-job-board" onclick="showView('job-board')">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Job Board & Eligibility</span>
+                </button>
+                <button class="nav-item student-nav-only" id="nav-student-profile"
+                    onclick="showView('student-profile')">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span>Academic Profile</span>
+                </button>
+                <button class="nav-item student-nav-only" id="nav-student-apps" onclick="showView('student-apps')">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span>My Applications</span>
+                </button>
+
+                <!-- Admin Nav Links -->
+                <div class="nav-section-title admin-nav-only">TPO Management</div>
+                <button class="nav-item admin-nav-only" id="nav-admin-dashboard" onclick="showView('admin-dashboard')">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics Overview</span>
+                </button>
+                <button class="nav-item admin-nav-only" id="nav-admin-students" onclick="showView('admin-students')">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Student Registry</span>
+                </button>
+                <button class="nav-item admin-nav-only" id="nav-admin-companies" onclick="showView('admin-companies')">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Company Criteria</span>
+                </button>
+                <button class="nav-item admin-nav-only" id="nav-admin-apps" onclick="showView('admin-apps')">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Review Applications</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="handleLogout()" class="btn btn-outline btn-block">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-wrapper">
+            <!-- Header bar -->
+            <header class="top-header glass-panel">
+                <div class="header-left">
+                    <h2 id="view-title">Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <!-- Quick Toggle Role for Mock Demonstration -->
+                    <div id="role-toggle-pill" class="role-toggle-pill">
+                        <span id="role-badge">TPO ADMIN MODE</span>
+                    </div>
+                    <div class="header-date">
+                        <i class="fa-regular fa-calendar-check"></i>
+                        <span id="current-date">Friday, June 19, 2026</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Container -->
+            <div class="content-container">
+
+                <!-- ==============================================
+                     A. STUDENT VIEW: JOB BOARD & ELIGIBILITY
+                     ============================================== -->
+                <div id="view-job-board" class="portal-view active-view">
+                    <div class="dashboard-banner glass-panel">
+                        <div class="banner-content">
+                            <h3>Check Your Placement Eligibility Instantly</h3>
+                            <p>Below is the list of active recruiting companies. The eligibility engine matches your
+                                academic metrics in real-time. Keep your profile updated for accurate matching.</p>
+                        </div>
+                        <div class="banner-icon-bg">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="filter-bar glass-panel">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="job-search" placeholder="Search by company or role..."
+                                oninput="filterJobBoard()">
+                        </div>
+                        <div class="filter-controls">
+                            <button class="btn btn-tab active" id="filter-all" onclick="filterJobs('all')">All
+                                Companies</button>
+                            <button class="btn btn-tab" id="filter-eligible" onclick="filterJobs('eligible')">Eligible
+                                Only</button>
+                            <button class="btn btn-tab" id="filter-applied"
+                                onclick="filterJobs('applied')">Applied</button>
+                        </div>
+                    </div>
+
+                    <!-- Companies Grid -->
+                    <div class="companies-grid" id="companies-list-grid">
+                        <!-- Loaded dynamically via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- ==============================================
+                     B. STUDENT VIEW: STUDENT PROFILE EDIT
+                     ============================================== -->
+                <div id="view-student-profile" class="portal-view">
+                    <div class="grid-two-cols">
+                        <!-- Edit Form -->
+                        <div class="glass-panel edit-card">
+                            <div class="card-header-icon">
+                                <i class="fa-solid fa-user-pen header-glow-icon"></i>
+                                <h3>Update Academic Profile</h3>
+                            </div>
+                            <form id="profile-edit-form" onsubmit="handleProfileUpdate(event)">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="prof-name">Full Name</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-regular fa-user input-icon"></i>
+                                            <input type="text" id="prof-name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-branch">Branch / Department</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-code-branch input-icon"></i>
+                                            <select id="prof-branch" required>
+                                                <option value="Computer Science">Computer Science</option>
+                                                <option value="Electronics Eng">Electronics Eng</option>
+                                                <option value="Mechanical Eng">Mechanical Eng</option>
+                                                <option value="Electrical Eng">Electrical Eng</option>
+                                                <option value="Civil Eng">Civil Eng</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-roll">Roll Number</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-regular fa-id-card input-icon"></i>
+                                            <input type="text" id="prof-roll" readonly class="input-disabled">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-cgpa">Current CGPA</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-star input-icon"></i>
+                                            <input type="number" step="0.01" min="0" max="10" id="prof-cgpa" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-tenth">10th Marks (%)</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-percent input-icon"></i>
+                                            <input type="number" step="0.1" min="0" max="100" id="prof-tenth" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-twelfth">12th/Diploma (%)</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-percent input-icon"></i>
+                                            <input type="number" step="0.1" min="0" max="100" id="prof-twelfth"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-backlogs">Active Backlogs</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-triangle-exclamation input-icon"></i>
+                                            <input type="number" min="0" id="prof-backlogs" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-history">History of Backlogs</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-clock-rotate-left input-icon"></i>
+                                            <input type="number" min="0" id="prof-history" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-year">Graduation Year</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-regular fa-calendar input-icon"></i>
+                                            <input type="number" min="2020" max="2035" id="prof-year" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prof-resume-file">Upload Resume (PDF/DOC)</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-file-pdf input-icon"
+                                                style="color: var(--accent-cyan);"></i>
+                                            <input type="file" id="prof-resume-file" accept=".pdf,.doc,.docx"
+                                                style="padding-top: 10px;">
+                                            <input type="hidden" id="prof-resume" value="">
+                                        </div>
+                                        <p id="resume-upload-status"
+                                            style="font-size:0.78rem; margin-top:6px; color: var(--accent-cyan);"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group full-width-field">
+                                    <label for="prof-skills">Technical Skills (Comma-separated)</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-lightbulb input-icon"></i>
+                                        <input type="text" id="prof-skills" placeholder="Java, Python, HTML, CSS">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary btn-glow">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Statistics Profile Card (Side panel) -->
+                        <div class="glass-panel profile-summary-card">
+                            <div class="profile-summary-header">
+                                <div class="prof-avatar" id="summary-avatar-big">S</div>
+                                <h3 id="summary-name">Jane Doe</h3>
+                                <p id="summary-email">jane@student.com</p>
+                                <span class="badge badge-green" id="summary-roll">CS045</span>
+                            </div>
+                            <div class="profile-metrics-list">
+                                <div class="metric-item">
+                                    <span class="label">CGPA</span>
+                                    <span class="val" id="summary-cgpa">8.90</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">10th / 12th Marks</span>
+                                    <span class="val" id="summary-marks">92.5% / 88.0%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Active Backlogs</span>
+                                    <span class="val text-danger" id="summary-backlogs">0</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Department</span>
+                                    <span class="val" id="summary-branch">Computer Science</span>
+                                </div>
+                            </div>
+                            <div class="profile-skills-box">
+                                <h4>Technical Stack</h4>
+                                <div class="skills-tags-container" id="summary-skills-tags">
+                                    <!-- Loaded dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================
+                     C. STUDENT VIEW: APPLICATIONS LIST
+                     ============================================== -->
+                <div id="view-student-apps" class="portal-view">
+                    <div class="glass-panel table-panel">
+                        <div class="panel-header">
+                            <h3>My Job Applications</h3>
+                            <p>Track the selection progress and status of your applied companies.</p>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Designated Role</th>
+                                        <th>Salary Package</th>
+                                        <th>Applied Date</th>
+                                        <th>Status Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="student-apps-tbody">
+                                    <!-- Loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================
+                     D. ADMIN VIEW: ANALYTICS OVERVIEW
+                     ============================================== -->
+                <div id="view-admin-dashboard" class="portal-view">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card glass-panel border-cyan">
+                            <div class="stat-icon bg-cyan-soft"><i class="fa-solid fa-user-graduate font-cyan"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-title">Total Students</span>
+                                <h2 id="stat-total-students">0</h2>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel border-indigo">
+                            <div class="stat-icon bg-indigo-soft"><i class="fa-solid fa-building font-indigo"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-title">Active Recruiter Firms</span>
+                                <h2 id="stat-total-companies">0</h2>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel border-pink">
+                            <div class="stat-icon bg-pink-soft"><i class="fa-solid fa-file-lines font-pink"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-title">Job Applications</span>
+                                <h2 id="stat-total-apps">0</h2>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel border-green">
+                            <div class="stat-icon bg-green-soft"><i class="fa-solid fa-circle-check font-green"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-title">Placement Percentage</span>
+                                <h2 id="stat-placement-rate">0.0%</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-two-cols">
+                        <!-- Application Status breakdown -->
+                        <div class="glass-panel chart-panel">
+                            <h3>Application Status Breakdown</h3>
+                            <div class="chart-container">
+                                <div class="bar-chart-y">
+                                    <div class="chart-y-row">
+                                        <span class="chart-y-label">Selected</span>
+                                        <div class="chart-y-bar-wrapper">
+                                            <div class="chart-y-bar bg-green" id="bar-selected" style="width: 0%"></div>
+                                        </div>
+                                        <span class="chart-y-val" id="val-selected">0</span>
+                                    </div>
+                                    <div class="chart-y-row">
+                                        <span class="chart-y-label">Shortlisted</span>
+                                        <div class="chart-y-bar-wrapper">
+                                            <div class="chart-y-bar bg-cyan" id="bar-shortlisted" style="width: 0%">
+                                            </div>
+                                        </div>
+                                        <span class="chart-y-val" id="val-shortlisted">0</span>
+                                    </div>
+                                    <div class="chart-y-row">
+                                        <span class="chart-y-label">Applied</span>
+                                        <div class="chart-y-bar-wrapper">
+                                            <div class="chart-y-bar bg-indigo" id="bar-applied" style="width: 0%"></div>
+                                        </div>
+                                        <span class="chart-y-val" id="val-applied">0</span>
+                                    </div>
+                                    <div class="chart-y-row">
+                                        <span class="chart-y-label">Rejected</span>
+                                        <div class="chart-y-bar-wrapper">
+                                            <div class="chart-y-bar bg-red" id="bar-rejected" style="width: 0%"></div>
+                                        </div>
+                                        <span class="chart-y-val" id="val-rejected">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Branch wise Stats -->
+                        <div class="glass-panel chart-panel">
+                            <h3>Branch Wise Placement Statistics</h3>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Branch</th>
+                                            <th>Registered Students</th>
+                                            <th>Placed Students</th>
+                                            <th>Success Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-branch-stats-tbody">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================
+                     E. ADMIN VIEW: STUDENT REGISTRY
+                     ============================================== -->
+                <div id="view-admin-students" class="portal-view">
+                    <div class="glass-panel table-panel">
+                        <div class="panel-header-search">
+                            <h3>Student Registry</h3>
+                            <div class="search-filters">
+                                <input type="text" id="student-search" placeholder="Search by name or roll..."
+                                    oninput="filterRegistry()">
+                                <select id="student-filter-branch" onchange="filterRegistry()">
+                                    <option value="All">All Branches</option>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Electronics Eng">Electronics Eng</option>
+                                    <option value="Mechanical Eng">Mechanical Eng</option>
+                                    <option value="Electrical Eng">Electrical Eng</option>
+                                    <option value="Civil Eng">Civil Eng</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Roll Number</th>
+                                        <th>Branch</th>
+                                        <th>CGPA</th>
+                                        <th>10th / 12th %</th>
+                                        <th>Active Backlogs</th>
+                                        <th>Skills</th>
+                                        <th>Resume</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-students-tbody">
+                                    <!-- Loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================
+                     F. ADMIN VIEW: COMPANY CRITERIA MANAGEMENT
+                     ============================================== -->
+                <div id="view-admin-companies" class="portal-view">
+                    <div class="grid-two-cols">
+                        <!-- Company Form -->
+                        <div class="glass-panel edit-card">
+                            <div class="card-header-icon">
+                                <i class="fa-solid fa-building-circle-plus header-glow-icon"></i>
+                                <h3>Post New Job Opportunity</h3>
+                            </div>
+                            <form id="add-company-form" onsubmit="handleAddCompany(event)">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="comp-name">Company Name</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-building input-icon"></i>
+                                            <input type="text" id="comp-name" placeholder="Google" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-role">Job Role Title</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-briefcase input-icon"></i>
+                                            <input type="text" id="comp-role" placeholder="Software Engineer" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-package">Salary Package</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-money-bill-wave input-icon"></i>
+                                            <input type="text" id="comp-package" placeholder="12 LPA" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-cgpa">Min CGPA Required</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-star input-icon"></i>
+                                            <input type="number" step="0.01" min="0" max="10" id="comp-cgpa"
+                                                placeholder="7.5" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-tenth">Min 10th Marks (%)</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-percent input-icon"></i>
+                                            <input type="number" step="0.1" min="0" max="100" id="comp-tenth"
+                                                placeholder="60.0" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-twelfth">Min 12th Marks (%)</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-percent input-icon"></i>
+                                            <input type="number" step="0.1" min="0" max="100" id="comp-twelfth"
+                                                placeholder="60.0" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-backlogs">Max Allowed Backlogs</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-triangle-exclamation input-icon"></i>
+                                            <input type="number" min="0" id="comp-backlogs" placeholder="0" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-deadline">Application Deadline</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-regular fa-calendar-days input-icon"></i>
+                                            <input type="date" id="comp-deadline" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comp-color">Logo Accent Color</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-palette input-icon"></i>
+                                            <input type="color" id="comp-color" value="#4f46e5">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group full-width-field">
+                                    <label for="comp-branches">Eligible Branches (Comma-separated, or 'All')</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-tags input-icon"></i>
+                                        <input type="text" id="comp-branches"
+                                            placeholder="Computer Science, Electronics Eng" value="All" required>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary btn-glow">Post Opportunity</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Active postings list -->
+                        <div class="glass-panel active-postings-card">
+                            <h3>Active Postings & Criteria</h3>
+                            <div class="postings-list-wrapper" id="admin-companies-list">
+                                <!-- Loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================
+                     G. ADMIN VIEW: REVIEW APPLICATIONS
+                     ============================================== -->
+                <div id="view-admin-apps" class="portal-view">
+                    <div class="glass-panel table-panel">
+                        <div class="panel-header-search">
+                            <h3>Review Student Applications</h3>
+                            <div class="search-filters">
+                                <input type="text" id="app-search" placeholder="Search by student or company..."
+                                    oninput="filterAdminApps()">
+                                <select id="app-filter-status" onchange="filterAdminApps()">
+                                    <option value="All">All Statuses</option>
+                                    <option value="Applied">Applied (Pending)</option>
+                                    <option value="Shortlisted">Shortlisted</option>
+                                    <option value="Selected">Selected</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Roll Number</th>
+                                        <th>Academic Credentials</th>
+                                        <th>Company / Role</th>
+                                        <th>Resume</th>
+                                        <th>Details</th>
+                                        <th>Applied Date</th>
+                                        <th>Status Badge</th>
+                                        <th>TPO Action Panel</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-apps-tbody">
+                                    <!-- Loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: Criteria Breakdown Popup for Students -->
+    <div id="criteria-modal" class="modal-overlay">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3 id="modal-title">Google eligibility</h3>
+                <button onclick="closeCriteriaModal()" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="eligibility-status-banner" id="modal-status-banner">
+                    <i class="fa-solid fa-circle-check" id="modal-status-icon"></i>
+                    <span id="modal-status-text">ELIGIBLE</span>
+                </div>
+
+                <div class="modal-checklist">
+                    <h4>Eligibility Checklist Breakdown:</h4>
+                    <ul class="checklist-items" id="modal-checklist-list">
+                        <!-- Loaded dynamically -->
+                    </ul>
+                </div>
+
+                <div class="modal-footer-info" id="modal-footer-actions">
+                    <!-- Dynamic Apply button -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Custom Application Form -->
+    <div id="apply-form-modal" class="modal-overlay">
+        <div class="modal-card glass-panel">
+            <div class="modal-header">
+                <h3 id="apply-modal-title">Apply for Job</h3>
+                <button onclick="closeApplyModal()" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="job-apply-form" onsubmit="submitJobApplication(event)">
+                    <input type="hidden" id="apply-company-id">
+
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label>Applicant Profile Summary</label>
+                        <div
+                            style="background:rgba(0,0,0,0.25); padding:12px; border-radius:var(--border-radius-sm); font-size:0.85rem; line-height:1.6;">
+                            <div>Name: <strong id="apply-student-name">Name</strong></div>
+                            <div>Roll No: <strong id="apply-student-roll">Roll</strong></div>
+                            <div>Branch: <strong id="apply-student-branch">Branch</strong></div>
+                            <div>CGPA: <strong id="apply-student-cgpa">0.00</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apply-location">Preferred Work Location</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-location-dot input-icon"></i>
+                            <select id="apply-location" required style="padding-left:42px;">
+                                <option value="">Select Location</option>
+                                <option value="Bangalore">Bangalore (HQ)</option>
+                                <option value="Hyderabad">Hyderabad (R&D)</option>
+                                <option value="Pune">Pune</option>
+                                <option value="Noida">Noida</option>
+                                <option value="Remote">Remote (WFH)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apply-sop">Statement of Purpose / Cover Letter</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-file-lines input-icon" style="top:18px;"></i>
+                            <textarea id="apply-sop" rows="4"
+                                placeholder="Describe why you are interested in this role..." required
+                                style="padding-left:42px; height:auto; resize:vertical;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions"
+                        style="margin-top:20px; padding-top:15px; border-top:1px solid var(--border-color);">
+                        <button type="button" class="btn btn-outline" onclick="closeApplyModal()"
+                            style="margin-right:10px;">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-glow">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Confirm & Submit</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script file -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>
