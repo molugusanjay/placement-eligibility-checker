@@ -1,4 +1,4 @@
-# PrepEligible // Placement Eligibility Checker Portal
+ PrepEligible // Placement Eligibility Checker Portal
 
 PrepEligible is a responsive full-stack web application designed for academic placement cells and training/placement offices (TPO). It automatically checks and displays a student's eligibility for recruitment drives in real-time by evaluating academic details against customizable company requirements.
 
