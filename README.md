@@ -2,9 +2,9 @@
 
 PrepEligible is a responsive full-stack web application designed for academic placement cells and training/placement offices (TPO). It automatically checks and displays a student's eligibility for recruitment drives in real-time by evaluating academic details against customizable company requirements.
 
----
 
-##  Key Features
+
+Key Features
 ### For Students
 - **Real-Time Eligibility Engine**: Automatically checks CGPA, 10th & 12th marks, active backlogs, and branch eligibility against all visiting companies.
 - **Academic Profile Editor**: Update academic statistics, resumes, and lists of skills instantly.
