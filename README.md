@@ -4,7 +4,7 @@ PrepEligible is a responsive full-stack web application designed for academic pl
 
 ---
 
-## 🚀 Key Features
+##  Key Features
 
 ### For Students
 - **Real-Time Eligibility Engine**: Automatically checks CGPA, 10th & 12th marks, active backlogs, and branch eligibility against all visiting companies.
