@@ -1,103 +1,92 @@
- PrepEligible // Placement Eligibility Checker Portal
+PrepEligible — Campus Placement & Eligibility CheckerPrepEligible is a full-stack web application I built as part of my internship project. The main idea is to help students and TPO staff manage the campus placement process more easily. Instead of manually checking each student's eligibility for every company, this system does it automatically in real-time.
 
-PrepEligible is a responsive full-stack web application designed for academic placement cells and training/placement offices (TPO). It automatically checks and displays a student's eligibility for recruitment drives in real-time by evaluating academic details against customizable company requirements.
+What This Project Does
+In most colleges, students have to manually check if they are eligible for a company visiting campus. This takes time and often causes confusion. So I built this portal where:
+Students can login, fill their academic details, and instantly see which companies they are eligible for
+TPO Admin can post new companies with eligibility criteria and manage all student applications from one place
 
+Features I Built
+For Students
+Eligibility Check — Automatically checks CGPA, 10th marks, 12th marks, active backlogs, and branch against every company's requirements
+Academic Profile — Students can update their details and upload their resume in PDF or DOC format
+Eligibility Breakdown — Shows exactly which criteria passed or failed for each company
+Application Tracking — Students can apply to eligible companies and track their status like Applied, Shortlisted, Selected, or Rejected
 
+For TPO Admin
+Dashboard — Shows total students, companies, applications, placement rate and average CGPA
+Student Registry — View all registered students with search and filter options
+Company Manager — Post new job opportunities with criteria like minimum CGPA, backlog limit, allowed branches, package, and deadline
+Application Review — View student resumes, check their profiles, and update application status
 
-Key Features
-### For Students
-- **Real-Time Eligibility Engine**: Automatically checks CGPA, 10th & 12th marks, active backlogs, and branch eligibility against all visiting companies.
-- **Academic Profile Editor**: Update academic statistics, resumes, and lists of skills instantly.
-- **Eligibility Checklist**: Visual drawer detailing exactly which criteria passed or failed for a specific job posting.
-- **Application Tracking**: Submit applications to eligible companies and monitor recruitment status (Applied, Shortlisted, Selected, Rejected).
+New Features I Added
+PDF/DOC Resume Upload — Students can upload their resume directly instead of pasting a Google Drive link. Admin can download and view it anytime
+Email Notifications — When admin posts a new company, the system automatically checks all students and sends email notification to only the eligible ones. Also if a student updates their CGPA and becomes newly eligible for a company, they get notified automatically
 
-### For Training & Placement Officers (TPO / Admin)
-- **Analytics Dashboard**: Performance metrics including average CGPA, job post counts, application counts, and student placement rates.
-- **Student Registry**: Interactive database containing details of all registered students with instant search and branch filters.
-- **Criteria & Job Posting Manager**: Create and delete job opportunities. Define minimum CGPA, backlog limits, allowed departments, packages, deadlines, and UI branding colors.
-- **Application Review Panel**: Review student profiles, inspect resumes, and update application statuses (Shortlist, Select, Reject).
-
----
-
-## 🛠️ Technology Stack
-- **Backend API**: Python 3.14+ / Flask 3.1
-- **Database**: SQLite3 (File-based, zero configuration)
-- **Frontend SPA**: Vanilla HTML5, modern CSS3 (featuring responsive grids and dark glassmorphic design), and Javascript (ES6+ fetch client & router).
-
----
-
-## 📂 Project Architecture & Directory Structure
-
-```text
-placement-eligibility-checker/
+Project Folder Structure
+placement-eligibility-checker
 │
-├── database.db             # SQLite database file (created automatically on startup)
-├── db_init.py              # Database schema builder and seed data generator
-├── app.py                  # Main Flask web application (REST API and routing)
-├── run.py                  # Startup script (verifies database, runs server, opens browser)
+├── app.py            # Main backend file, all API routes
+├── db_init.py        # Creates database tables and adds sample data
+├── run.py            # Starts the server and opens browser automatically
+├── emails_sent.log   # Logs all email notifications sent
+├── uploads/          # Stores uploaded student resumes
 │
-└── static/                 # Static asset folder served by Flask
-    ├── index.html          # Main Single Page Application UI structure
-    │
+└── static/
+    ├── index.html    # Main frontend page
     ├── css/
-    │   └── style.css       # Custom glassmorphic styling, variables, and responsive layout
-    │
+    │   └── style.css
     └── js/
-        └── app.js          # Controller handles auth, SPA routing, API fetch, UI rendering
-```
+        └── app.js
 
----
-
-## ⚙️ Running the Application
-
-### Prerequisites
-You only need **Python 3** and **Flask** installed on your system. 
-
-1. **Verify Python is installed**:
-   ```bash
-   python --version
-   ```
-2. **Install Flask** (if you don't have it installed):
-   ```bash
-   pip install Flask
-   ```
-
-### Quick Start
-To launch the application, initialize the database automatically, and open the web portal, run the startup script:
-
-```powershell
+   //How to Run This Project
+Step 1 — Make sure Python is installed:
+python --version
+Step 2 — Install required libraries:
+pip install flask werkzeug
+Step 3 — Start the project:
 python run.py
-```
 
-The portal will open in your default browser at **`http://127.0.0.1:5000`**.
+How Eligibility is Calculated
+The system checks 5 things for each student against each company:
+Student CGPA must be greater than or equal to company minimum CGPA
+Student 10th percentage must meet company requirement
+Student 12th percentage must meet company requirement
+Student active backlogs must be within company limit
+Student branch must be in company allowed branches list
 
----
+If all 5 pass, student is shown as Eligible. If even one fails, it shows exactly which criteria failed.
 
-## 🔑 Test Credentials
+Email Notification Logic
+Since I don't have a real SMTP server configured, emails are logged to emails_sent.log file. This file acts as proof that the notification system is working. In a real deployment, just adding SMTP credentials in environment variables would make it send actual emails.
+The log file shows:
+Which student was notified
+Their CGPA
+Which company triggered the notification
+Package and deadline details
+Exact timestamp
 
-You can use the following seeded user profiles to test and demonstrate all features of the portal:
+This project was developed as part of my Full Stack Web Development internship to solve a real problem faced by placement cells in engineering colleges.
 
-### 1. Training & Placement Officer (TPO Admin View)
-- **Email**: `admin@tpo.com`
-- **Password**: `admin123`
 
-### 2. Eligible Student Profile
-- **Email**: `jane@student.com`
-- **Password**: `student123`
-- *Profile Details*: CGPA 8.9, 0 Backlogs, Computer Science. (Eligible for all companies)
 
-### 3. Student with Backlogs (Ineligible for some companies)
-- **Email**: `john@student.com`
-- **Password**: `student123`
-- *Profile Details*: CGPA 7.2, 1 Active Backlog, Mechanical Engineering. (Ineligible for Google due to backlogs and branch)
 
----
 
-## 🧠 Core Eligibility Algorithm
-The system checks eligibility using the following backend constraints (`app.py`):
 
-1. **CGPA Criterion**: `Student CGPA >= Company Minimum CGPA`
-2. **10th Grade Score**: `Student 10th % >= Company Minimum 10th %`
-3. **12th Grade Score**: `Student 12th % >= Company Minimum 12th %`
-4. **Active Backlogs**: `Student Active Backlogs <= Company Maximum Backlogs Allowed`
-5. **Specialization**: `Company Allowed Branches == 'All'` OR `Student Branch` is listed in the company's allowed branches list (case-insensitive check).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
