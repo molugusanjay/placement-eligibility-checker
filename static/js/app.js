@@ -1,7 +1,5 @@
-// ==========================================================================
-// PREPELIGIBLE SUITE - CLIENT APPLICATION ENGINE
-// ==========================================================================
 
+// PREPELIGIBLE SUITE - CLIENT APPLICATION ENGINE
 // Application State
 let currentUser = null;
 let studentProfile = null;
@@ -21,9 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     checkSession();
 });
 
-// ==========================================================================
+
 // REST API CLIENT WRAPPER (Fetch utilities)
-// ==========================================================================
 async function apiRequest(url, options = {}) {
     const defaultHeaders = {
         'Content-Type': 'application/json',
@@ -49,9 +46,8 @@ async function apiRequest(url, options = {}) {
     }
 }
 
-// ==========================================================================
+
 // SESSION & AUTHENTICATION HANDLERS
-// ==========================================================================
 async function checkSession() {
     try {
         const data = await apiRequest('/api/auth/session');
@@ -194,9 +190,7 @@ async function handleLogout() {
     }
 }
 
-// ==========================================================================
 // VIEW SWITCHER ROUTER
-// ==========================================================================
 function showView(viewId) {
     // 1. Hide all views and remove active state from nav
     const views = document.querySelectorAll('.portal-view');
@@ -231,9 +225,7 @@ function showView(viewId) {
     document.getElementById('view-title').innerText = viewTitleText;
 }
 
-// ==========================================================================
 // TOAST NOTIFICATIONS WIDGET
-// ==========================================================================
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
@@ -264,9 +256,7 @@ function showToast(message, type = 'success') {
     }, 3500);
 }
 
-// ==========================================================================
 // STUDENT LOGIC: JOB BOARD & ELIGIBILITY RADAR
-// ==========================================================================
 async function loadJobBoard() {
     try {
         const companies = await apiRequest('/api/companies');
@@ -568,9 +558,7 @@ async function submitJobApplication(event) {
     } catch (e) {}
 }
 
-// ==========================================================================
 // STUDENT PROFILE WIDGET HANDLERS
-// ==========================================================================
 async function loadStudentProfile() {
     try {
         const data = await apiRequest('/api/students/profile');
